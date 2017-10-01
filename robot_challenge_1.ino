@@ -8,7 +8,7 @@ long duration;
 long durationDown;
 long distance;
 long distanceDown;
-int maximumRange = 150;
+int maximumRange = 50;
 int minimumRange = 2;
 int maximumRangeDown=15;
 int minimumRangeDown=0;
@@ -67,7 +67,7 @@ void turn_left()
   // motor 2 forward 
   digitalWrite(11, LOW);
   digitalWrite(12, LOW);
-  delay (350);  //adjust!!!! 
+  delay (40);  //adjust!!!! 
   // motor 2 stop 
   digitalWrite(9, LOW);
   digitalWrite(10, LOW);  
@@ -83,8 +83,7 @@ void turn_right()
   // motor 2 stop 
   digitalWrite(9, LOW);
   digitalWrite(10, LOW);
-  //delay (600); //adjust!!!!
-  delay(350);
+  delay (600); //adjust!!!!
   // motor 1 stop 
   digitalWrite(11, LOW);
   digitalWrite(12, LOW); 
@@ -130,32 +129,27 @@ void loop() {
   robot_forward();
   distance=checkDist();
   distanceDown=checkDistDown();
-  
+ // Serial.println(distance);
   while((distance<minimumRange||distance>=maximumRange)&&(distanceDown<=15&&distanceDown>=10)){
-    turn_left();
-    robot_stop();
-    delay(600);
+    robot_forward();
     distance=checkDist();
     distanceDown=checkDistDown();
   }
-  distance=checkDist();
-  distanceDown=checkDistDown();
   if((distance<maximumRange)&&(distanceDown<=15&&distanceDown>=10)){
+    robot_stop();
+    delay(800);
+    turn_right();
     robot_forward();
-    
   }else if(distanceDown>15){
     robot_stop();
     delay(500);
     robot_reverse();
     delay(1000);
-    turn_left();
+    turn_right();
     //robot_forward();
-     
   }
   else{
-    turn_left();
-      distance=checkDist();
-  distanceDown=checkDistDown();
+    robot_forward();
   }
   delay(50);
 
